@@ -1,0 +1,16 @@
+{
+  "name": "alexa-apl-block-breaking-game-sample",
+  "version": "1.1.0",
+  "description": "Sample of block-breaking-game implemented in APL 1.4",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mokomoko-don",
+  "license": "MIT",
+  "dependencies": {
+    "ask-sdk-core": "^2.6.0",
+    "ask-sdk-model": "^1.18.0",
+    "aws-sdk": "^2.326.0"
+  }
+}
