@@ -2,12 +2,9 @@
 
 「ブロック崩しゲームサンプル」は、APL 1.4で動作するブロック崩しゲームのサンプルです。
 
-# ScreenShot
-
-![スクリーンショット](https://raw.githubusercontent.com/mokomoko-don/alexa-apl-block-breaking-game-sample/master/images/block_breaking.png)
-
 # DemoMovie
-[DemoMovie](https://youtu.be/_vjMZPRAeG4)
+
+[![DemoMovie](https://raw.githubusercontent.com/mokomoko-don/alexa-apl-block-breaking-game-sample/master/images/block_breaking.png)](https://www.youtube.com/watch?v=_vjMZPRAeG4)
 
 # Features
 

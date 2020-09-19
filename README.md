@@ -2,12 +2,9 @@
 
 The "Blockbuster Game Sample" is a sample of a block-breaking game that runs in APL 1.4.
 
-# ScreenShot
-
-![screenshot](https://raw.githubusercontent.com/mokomoko-don/alexa-apl-block-breaking-game-sample/master/images/block_breaking.png)
-
 # DemoMovie
-[DemoMovie](https://youtu.be/_vjMZPRAeG4)
+
+[![DemoMovie](https://raw.githubusercontent.com/mokomoko-don/alexa-apl-block-breaking-game-sample/master/images/block_breaking.png)](https://www.youtube.com/watch?v=_vjMZPRAeG4)
 
 # Features
 
