@@ -4,7 +4,7 @@ The "Blockbuster Game Sample" is a sample of a block-breaking game that runs in 
 
 # ScreenDemo
 
-! [screendemo](https://raw.githubusercontent.com/mokomoko-don/alexa-apl-block-breaking-game-sample/master/images/block_breaking.png)
+![screendemo](https://raw.githubusercontent.com/mokomoko-don/alexa-apl-block-breaking-game-sample/master/images/block_breaking.png)
 
 # Features
 
