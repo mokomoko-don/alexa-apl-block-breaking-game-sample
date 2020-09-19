@@ -6,6 +6,9 @@
 
 ![スクリーンショット](https://raw.githubusercontent.com/mokomoko-don/alexa-apl-block-breaking-game-sample/master/images/block_breaking.png)
 
+# DemoMovie
+![DemoMovie](https://youtu.be/_vjMZPRAeG4)
+
 # Features
 
 このコードはAmazon Echo Showシリーズなどに実装されているalexa上で動作します。

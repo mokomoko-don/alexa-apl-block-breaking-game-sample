@@ -6,6 +6,9 @@ The "Blockbuster Game Sample" is a sample of a block-breaking game that runs in 
 
 ![screenshot](https://raw.githubusercontent.com/mokomoko-don/alexa-apl-block-breaking-game-sample/master/images/block_breaking.png)
 
+# DemoMovie
+![DemoMovie](https://youtu.be/_vjMZPRAeG4)
+
 # Features
 
 This code runs on alexa, which is implemented in the Amazon Echo Show series and others.
