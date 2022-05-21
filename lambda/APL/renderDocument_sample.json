@@ -1,670 +1,670 @@
 {
-    "type": "APL",
-    "version": "1.4",
-    "settings": {},
-    "theme": "dark",
-    "import": [],
-    "resources": [],
-    "styles": {},
-    "onMount": [],
-    "graphics": {
-        "parameterizedCircle": {
-            "type": "AVG",
-            "version": "1.0",
-            "parameters": [
-                {
-                    "name": "circleColor",
-                    "type": "color",
-                    "default": "black"
-                },
-                {
-                    "name": "circleBorderWidth",
-                    "type": "number",
-                    "default": 2
-                }
-            ],
-            "width": 50,
-            "height": 50,
-            "items": [
-                {
-                    "type": "path",
-                    "pathData": "M5,25 a20,20 0 1 1 40,0 a20,20 0 1 1 -40,0",
-                    "stroke": "${circleColor}",
-                    "strokeWidth": "${circleBorderWidth}",
-                    "fill": "white"
-                }
-            ]
+  "type": "APL",
+  "version": "1.4",
+  "settings": {},
+  "theme": "dark",
+  "import": [],
+  "resources": [],
+  "styles": {},
+  "onMount": [],
+  "graphics": {
+    "parameterizedCircle": {
+      "type": "AVG",
+      "version": "1.0",
+      "parameters": [
+        {
+          "name": "circleColor",
+          "type": "color",
+          "default": "black"
         },
-        "Block": {
-            "type": "AVG",
-            "version": "1.1",
-            "parameters": [
-                {
-                    "name": "blockColor",
-                    "type": "string",
-                    "default": "BlockRed"
-                }
-            ],
-            "resources": [
-                {
-                    "gradients": {
-                        "BlockRed": {
-                            "type": "linear",
-                            "colorRange": [
-                                "red",
-                                "white"
-                            ],
-                            "inputRange": [
-                                0,
-                                1
-                            ],
-                            "angle": 90
-                        }
-                    }
-                },
-                {
-                    "gradients": {
-                        "BlockOrange": {
-                            "type": "linear",
-                            "colorRange": [
-                                "orange",
-                                "white"
-                            ],
-                            "inputRange": [
-                                0,
-                                1
-                            ],
-                            "angle": 90
-                        }
-                    }
-                },
-                {
-                    "gradients": {
-                        "BlockYellow": {
-                            "type": "linear",
-                            "colorRange": [
-                                "yellow",
-                                "white"
-                            ],
-                            "inputRange": [
-                                0,
-                                1
-                            ],
-                            "angle": 90
-                        }
-                    }
-                },
-                {
-                    "gradients": {
-                        "BlockGreen": {
-                            "type": "linear",
-                            "colorRange": [
-                                "green",
-                                "white"
-                            ],
-                            "inputRange": [
-                                0,
-                                1
-                            ],
-                            "angle": 90
-                        }
-                    }
-                },
-                {
-                    "gradients": {
-                        "BlockBlue": {
-                            "type": "linear",
-                            "colorRange": [
-                                "blue",
-                                "white"
-                            ],
-                            "inputRange": [
-                                0,
-                                1
-                            ],
-                            "angle": 90
-                        }
-                    }
-                },
-                {
-                    "gradients": {
-                        "BlockPurple": {
-                            "type": "linear",
-                            "colorRange": [
-                                "purple",
-                                "white"
-                            ],
-                            "inputRange": [
-                                0,
-                                1
-                            ],
-                            "angle": 90
-                        }
-                    }
-                }
-            ],
-            "width": 80,
-            "height": 40,
-            "items": [
-                {
-                    "type": "path",
-                    "fill": "@${blockColor}",
-                    "stroke": "black",
-                    "strokeWidth": 2,
-                    "pathData": "M0,0 L80,0 L80,40 L0,40"
-                }
-            ]
+        {
+          "name": "circleBorderWidth",
+          "type": "number",
+          "default": 2
         }
-    },
-    "commands": {
-        "WallReflect": {
-            "commands": [
-                {
-                    "type": "SetValue",
-                    "property": "x",
-                    "value": "${Math.clamp(0+size, x+dx ,(MAX_X-MIN_X)-size)}"
-                },
-                {
-                    "type": "SetValue",
-                    "property": "y",
-                    "value": "${Math.clamp(0+size, y+dy ,(MAX_Y-MIN_Y)-size)}"
-                },
-                {
-                    "when": "${x <= 0+size}",
-                    "type": "SetValue",
-                    "property": "dx",
-                    "value": "${-dx}"
-                },
-                {
-                    "when": "${y <= 0+size}",
-                    "type": "SetValue",
-                    "property": "dy",
-                    "value": "${-dy}"
-                },
-                {
-                    "when": "${x >= (MAX_X-MIN_X)-size}",
-                    "type": "SetValue",
-                    "property": "dx",
-                    "value": "${-dx}"
-                },
-                {
-                    "when": "${y >= (MAX_Y-MIN_Y)-size}",
-                    "type": "SetValue",
-                    "property": "alive",
-                    "value": "${false}"
-                }
-            ]
-        },
-        "PaddleCollision": {
-            "parameters": [
-                {
-                    "name": "padL",
-                    "type": "number",
-                    "default": "${px-(pLen/2)}"
-                },
-                {
-                    "name": "padR",
-                    "type": "number",
-                    "default": "${px+(pLen/2)}"
-                }
-            ],
-            "commands": [
-                {
-                    "when": "${y >= 80vh && y <= 84vh && dy > 0 && x+dx >= padL && x+dx <= padR}",
-                    "type": "Sequential",
-                    "commands": [
-                        {
-                            "type": "SetValue",
-                            "property": "dx",
-                            "value": "${Math.cos(0-Math.PI/2+(Math.PI/3)*((Math.clamp(padL, x+dx, padR)-padL)/pLen*2-1))*2.5vh}"
-                        },
-                        {
-                            "type": "SetValue",
-                            "property": "dy",
-                            "value": "${Math.sin(0-Math.PI/2+(Math.PI/3)*((Math.clamp(padL, x+dx, padR)-padL)/pLen*2-1))*2.5vh}"
-                        }
-                    ]
-                }
-            ]
-        },
-        "BlockCollision": {
-            "parameters": [
-                {
-                    "name": "areaX",
-                    "type": "number",
-                    "default": "${Math.floor(x/(8*UNIT))}"
-                },
-                {
-                    "name": "areaY",
-                    "type": "number",
-                    "default": "${Math.floor(y/(4*UNIT))}"
-                },
-                {
-                    "name": "areaNewX",
-                    "type": "number",
-                    "default": "${Math.floor((x+dx)/(8*UNIT))}"
-                },
-                {
-                    "name": "areaNewY",
-                    "type": "number",
-                    "default": "${Math.floor((y+dy)/(4*UNIT))}"
-                }
-            ],
-            "commands": [
-                {
-                    "when": "${((areaX !== areaNewX) || (areaY !== areaNewY)) && areaNewY < MAX_LINE}",
-                    "type": "Sequential",
-                    "commands": [
-                        {
-                            "when": "${String.slice(BlockMatrix,areaNewY*16+areaNewX,areaNewY*16+areaNewX+1) == '1'}",
-                            "type": "Sequential",
-                            "commands": [
-                                {
-                                    "type": "SetValue",
-                                    "componentId": "bx${areaNewX}y${areaNewY}",
-                                    "property": "opacity",
-                                    "value": 0
-                                },
-                                {
-                                    "type": "SetValue",
-                                    "property": "score",
-                                    "value": "${score+10}"
-                                },
-                                {
-                                    "type": "SetValue",
-                                    "property": "BlockMatrix",
-                                    "value": "${String.slice(BlockMatrix,0,areaNewY*16+areaNewX)}0${String.slice(BlockMatrix,areaNewY*16+areaNewX+1)}"
-                                },
-                                {
-                                    "when": "${(areaX != areaNewX)}",
-                                    "type": "SetValue",
-                                    "property": "dx",
-                                    "value": "${-dx}"
-                                },
-                                {
-                                    "when": "${(areaY != areaNewY)}",
-                                    "type": "SetValue",
-                                    "property": "dy",
-                                    "value": "${-dy}"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
+      ],
+      "width": 50,
+      "height": 50,
+      "items": [
+        {
+          "type": "path",
+          "pathData": "M5,25 a20,20 0 1 1 40,0 a20,20 0 1 1 -40,0",
+          "stroke": "${circleColor}",
+          "strokeWidth": "${circleBorderWidth}",
+          "fill": "white"
         }
+      ]
     },
-    "layouts": {
-        "BlockLine": {
-            "parameters": [
-                {
-                    "name": "lineY",
-                    "type": "number",
-                    "default": 0
-                }
-            ],
-            "items": [
-                {
-                    "type": "Container",
-                    "width": "128vh",
-                    "height": "4vh",
-                    "position": "absolute",
-                    "top": "${lineY*4vh}",
-                    "data": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7,
-                        8,
-                        9,
-                        10,
-                        11,
-                        12,
-                        13,
-                        14,
-                        15
-                    ],
-                    "items": [
-                        {
-                            "type": "VectorGraphic",
-                            "id": "bx${data}y${lineY}",
-                            "bind": [
-                                {
-                                    "name": "exist",
-                                    "type": "boolean",
-                                    "value": "${true}"
-                                }
-                            ],
-                            "width": "8vh",
-                            "height": "4vh",
-                            "position": "absolute",
-                            "left": "${data*8vh}",
-                            "source": "Block",
-                            "blockColor": "${BLOCK_COLOR[lineY]}",
-                            "scale": "best-fill"
-                        }
-                    ]
-                }
-            ]
-        },
-        "BoundBall": {
-            "parameters": [
-                {
-                    "name": "ix",
-                    "type": "dimension",
-                    "default": "${15vw}"
-                },
-                {
-                    "name": "iy",
-                    "type": "dimension",
-                    "default": "${25vh}"
-                },
-                {
-                    "name": "dx",
-                    "type": "dimension",
-                    "default": 4
-                },
-                {
-                    "name": "dy",
-                    "type": "dimension",
-                    "default": 4
-                },
-                {
-                    "name": "size",
-                    "type": "dimension",
-                    "default": "${5vh / 2}"
-                },
-                {
-                    "name": "alive",
-                    "type": "boolean",
-                    "default": "${true}"
-                }
-            ],
-            "items": [
-                {
-                    "type": "VectorGraphic",
-                    "source": "parameterizedCircle",
-                    "bind": [
-                        {
-                            "name": "x",
-                            "value": "${ix}"
-                        },
-                        {
-                            "name": "y",
-                            "value": "${iy}"
-                        }
-                    ],
-                    "width": "${size*2}",
-                    "height": "${size*2}",
-                    "scale": "best-fit",
-                    "circleColor": "white",
-                    "circleBorderWidth": 5,
-                    "onMount": [
-                        {
-                            "type": "SetValue",
-                            "property": "transform",
-                            "value": [
-                                {
-                                    "translateX": "${ix-size}",
-                                    "translateY": "${iy-size}"
-                                }
-                            ]
-                        }
-                    ],
-                    "handleTick": [
-                        {
-                            "when": "${alive}",
-                            "minimumDelay": 50,
-                            "commands": [
-                                {
-                                    "type": "WallReflect"
-                                },
-                                {
-                                    "type": "PaddleCollision"
-                                },
-                                {
-                                    "type": "BlockCollision"
-                                },
-                                {
-                                    "type": "SetValue",
-                                    "property": "transform",
-                                    "value": [
-                                        {
-                                            "translateX": "${x-size}",
-                                            "translateY": "${y-size}"
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
+    "Block": {
+      "type": "AVG",
+      "version": "1.1",
+      "parameters": [
+        {
+          "name": "blockColor",
+          "type": "string",
+          "default": "BlockRed"
         }
-    },
-    "mainTemplate": {
-        "parameters": [
-            "payload"
-        ],
-        "items": [
-            {
-                "type": "Container",
-                "bind": [
-                    {
-                        "name": "MIN_X",
-                        "value": "${50vw-64vh}"
-                    },
-                    {
-                        "name": "MAX_X",
-                        "value": "${50vw+64vh}"
-                    },
-                    {
-                        "name": "MIN_Y",
-                        "value": "${10vh}"
-                    },
-                    {
-                        "name": "MAX_Y",
-                        "value": "${100vh}"
-                    },
-                    {
-                        "name": "UNIT",
-                        "type": "number",
-                        "value": "${1vh}"
-                    },
-                    {
-                        "name": "MAX_LINE",
-                        "type": "number",
-                        "value": "${8}"
-                    },
-                    {
-                        "name": "BlockMatrix",
-                        "type": "string",
-                        "value": "00000000000000000000000000000000111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
-                    },
-                    {
-                        "name": "px",
-                        "value": "${0}"
-                    },
-                    {
-                        "name": "pLen",
-                        "type": "number",
-                        "value": "${32vh}"
-                    },
-                    {
-                        "name": "score",
-                        "type": "number",
-                        "value": "${0}"
-                    },
-                    {
-                        "name": "BLOCK_COLOR",
-                        "type": "array",
-                        "value": [
-                            "",
-                            "",
-                            "BlockRed",
-                            "BlockOrange",
-                            "BlockYellow",
-                            "BlockGreen",
-                            "BlockBlue",
-                            "BlockPurple"
-                        ]
-                    }
-                ],
-                "width": "100vw",
-                "height": "100vh",
-                "items": [
-                    {
-                        "type": "Image",
-                        "width": "100vw",
-                        "height": "100vh",
-                        "source": "bg.jpg",
-                        "scale": "best-fill",
-                        "position": "absolute"
-                    },
-                    {
-                        "type": "Frame",
-                        "width": "${MAX_X-MIN_X}",
-                        "height": "${MAX_Y-MIN_Y}",
-                        "position": "absolute",
-                        "borderColor": "#FF0000",
-                        "borderWidth": "3px",
-                        "backgroundColor": "rgba(0,0,0,0.5)",
-                        "left": "${MIN_X}",
-                        "top": "${MIN_Y}"
-                    },
-                    {
-                        "type": "Container",
-                        "description": "BlockWall",
-                        "width": "${MAX_X-MIN_X}",
-                        "height": "${MAX_Y-MIN_Y}",
-                        "position": "absolute",
-                        "data": [
-                            2,
-                            3,
-                            4,
-                            5,
-                            6,
-                            7
-                        ],
-                        "items": [
-                            {
-                                "type": "BlockLine",
-                                "lineY": "${data}"
-                            }
-                        ],
-                        "direction": "column",
-                        "left": "${MIN_X}",
-                        "top": "${MIN_Y}"
-                    },
-                    {
-                        "type": "Container",
-                        "width": "${MAX_X-MIN_X}",
-                        "height": "${MAX_Y-MIN_Y}",
-                        "position": "absolute",
-                        "left": "${MIN_X}",
-                        "top": "${MIN_Y}",
-                        "data": [
-                            0,
-                            1,
-                            2,
-                            3,
-                            4
-                        ],
-                        "items": [
-                            {
-                                "type": "BoundBall",
-                                "id": "ball${data}",
-                                "position": "absolute",
-                                "ix": "${10vw}",
-                                "iy": "${70vh}",
-                                "dx": "${Math.cos(0-Math.PI/2+(Math.PI/3)*((data-2)*0.1))*2.5vh}",
-                                "dy": "${Math.sin(0-Math.PI/2+(Math.PI/3)*((data-2)*0.1))*2.5vh}",
-                                "size": "${3vh / 2}"
-                            }
-                        ]
-                    },
-                    {
-                        "type": "Text",
-                        "id": "info",
-                        "width": "${MAX_X-MIN_X}",
-                        "height": "10vh",
-                        "position": "absolute",
-                        "text": "${score}",
-                        "textAlign": "right",
-                        "fontStyle": "italic",
-                        "fontSize": "10vh",
-                        "textAlignVertical": "center",
-                        "color": "#000000",
-                        "left": "${MIN_X}"
-                    },
-                    {
-                        "type": "Text",
-                        "id": "debugMsg",
-                        "width": "100vw",
-                        "height": "100vh",
-                        "position": "absolute"
-                    },
-                    {
-                        "type": "Container",
-                        "width": "${MAX_X-MIN_X}",
-                        "height": "${MAX_Y-MIN_Y}",
-                        "position": "absolute",
-                        "left": "${MIN_X}",
-                        "top": "${MIN_Y}",
-                        "items": [
-                            {
-                                "type": "Frame",
-                                "id": "paddle",
-                                "width": "${pLen}",
-                                "height": "4vh",
-                                "position": "absolute",
-                                "backgroundColor": "#FF0000",
-                                "top": "80vh"
-                            },
-                            {
-                                "type": "TouchWrapper",
-                                "width": "100%",
-                                "height": "100%",
-                                "position": "absolute",
-                                "handleTick": [
-                                    {
-                                        "minimumDelay": 100,
-                                        "sequencer": "MySequencer",
-                                        "commands": [
-                                            {
-                                                "type": "SetValue",
-                                                "componentId": "paddle",
-                                                "property": "transform",
-                                                "value": [
-                                                    {
-                                                        "translateX": "${px-(pLen/2)}"
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                ],
-                                "onMove": [
-                                    {
-                                        "type": "Sequential",
-                                        "commands": [
-                                            {
-                                                "type": "SetValue",
-                                                "property": "px",
-                                                "value": "${event.component.x}"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
+      ],
+      "resources": [
+        {
+          "gradients": {
+            "BlockRed": {
+              "type": "linear",
+              "colorRange": [
+                "red",
+                "white"
+              ],
+              "inputRange": [
+                0,
+                1
+              ],
+              "angle": 90
             }
-        ]
+          }
+        },
+        {
+          "gradients": {
+            "BlockOrange": {
+              "type": "linear",
+              "colorRange": [
+                "orange",
+                "white"
+              ],
+              "inputRange": [
+                0,
+                1
+              ],
+              "angle": 90
+            }
+          }
+        },
+        {
+          "gradients": {
+            "BlockYellow": {
+              "type": "linear",
+              "colorRange": [
+                "yellow",
+                "white"
+              ],
+              "inputRange": [
+                0,
+                1
+              ],
+              "angle": 90
+            }
+          }
+        },
+        {
+          "gradients": {
+            "BlockGreen": {
+              "type": "linear",
+              "colorRange": [
+                "green",
+                "white"
+              ],
+              "inputRange": [
+                0,
+                1
+              ],
+              "angle": 90
+            }
+          }
+        },
+        {
+          "gradients": {
+            "BlockBlue": {
+              "type": "linear",
+              "colorRange": [
+                "blue",
+                "white"
+              ],
+              "inputRange": [
+                0,
+                1
+              ],
+              "angle": 90
+            }
+          }
+        },
+        {
+          "gradients": {
+            "BlockPurple": {
+              "type": "linear",
+              "colorRange": [
+                "purple",
+                "white"
+              ],
+              "inputRange": [
+                0,
+                1
+              ],
+              "angle": 90
+            }
+          }
+        }
+      ],
+      "width": 80,
+      "height": 40,
+      "items": [
+        {
+          "type": "path",
+          "fill": "@${blockColor}",
+          "stroke": "black",
+          "strokeWidth": 2,
+          "pathData": "M0,0 L80,0 L80,40 L0,40"
+        }
+      ]
     }
+  },
+  "commands": {
+    "WallReflect": {
+      "commands": [
+        {
+          "type": "SetValue",
+          "property": "x",
+          "value": "${Math.clamp(0+size, x+dx ,(MAX_X-MIN_X)-size)}"
+        },
+        {
+          "type": "SetValue",
+          "property": "y",
+          "value": "${Math.clamp(0+size, y+dy ,(MAX_Y-MIN_Y)-size)}"
+        },
+        {
+          "when": "${x <= 0+size}",
+          "type": "SetValue",
+          "property": "dx",
+          "value": "${-dx}"
+        },
+        {
+          "when": "${y <= 0+size}",
+          "type": "SetValue",
+          "property": "dy",
+          "value": "${-dy}"
+        },
+        {
+          "when": "${x >= (MAX_X-MIN_X)-size}",
+          "type": "SetValue",
+          "property": "dx",
+          "value": "${-dx}"
+        },
+        {
+          "when": "${y >= (MAX_Y-MIN_Y)-size}",
+          "type": "SetValue",
+          "property": "alive",
+          "value": "${false}"
+        }
+      ]
+    },
+    "PaddleCollision": {
+      "parameters": [
+        {
+          "name": "padL",
+          "type": "number",
+          "default": "${paddleX-(pLen/2)}"
+        },
+        {
+          "name": "padR",
+          "type": "number",
+          "default": "${paddleX+(pLen/2)}"
+        }
+      ],
+      "commands": [
+        {
+          "when": "${y >= 80vh && y <= 84vh && dy > 0 && x+dx >= padL && x+dx <= padR}",
+          "type": "Sequential",
+          "commands": [
+            {
+              "type": "SetValue",
+              "property": "dx",
+              "value": "${Math.cos(0-Math.PI/2+(Math.PI/3)*((Math.clamp(padL, x+dx, padR)-padL)/pLen*2-1))*2.5vh}"
+            },
+            {
+              "type": "SetValue",
+              "property": "dy",
+              "value": "${Math.sin(0-Math.PI/2+(Math.PI/3)*((Math.clamp(padL, x+dx, padR)-padL)/pLen*2-1))*2.5vh}"
+            }
+          ]
+        }
+      ]
+    },
+    "BlockCollision": {
+      "parameters": [
+        {
+          "name": "areaX",
+          "type": "number",
+          "default": "${Math.floor(x/(8*UNIT))}"
+        },
+        {
+          "name": "areaY",
+          "type": "number",
+          "default": "${Math.floor(y/(4*UNIT))}"
+        },
+        {
+          "name": "areaNewX",
+          "type": "number",
+          "default": "${Math.floor((x+dx)/(8*UNIT))}"
+        },
+        {
+          "name": "areaNewY",
+          "type": "number",
+          "default": "${Math.floor((y+dy)/(4*UNIT))}"
+        }
+      ],
+      "commands": [
+        {
+          "when": "${((areaX !== areaNewX) || (areaY !== areaNewY)) && areaNewY < MAX_LINE}",
+          "type": "Sequential",
+          "commands": [
+            {
+              "when": "${String.slice(BlockMatrix,areaNewY*16+areaNewX,areaNewY*16+areaNewX+1) == '1'}",
+              "type": "Sequential",
+              "commands": [
+                {
+                  "type": "SetValue",
+                  "componentId": "bx${areaNewX}y${areaNewY}",
+                  "property": "opacity",
+                  "value": 0
+                },
+                {
+                  "type": "SetValue",
+                  "property": "score",
+                  "value": "${score+10}"
+                },
+                {
+                  "type": "SetValue",
+                  "property": "BlockMatrix",
+                  "value": "${String.slice(BlockMatrix,0,areaNewY*16+areaNewX)}0${String.slice(BlockMatrix,areaNewY*16+areaNewX+1)}"
+                },
+                {
+                  "when": "${(areaX != areaNewX)}",
+                  "type": "SetValue",
+                  "property": "dx",
+                  "value": "${-dx}"
+                },
+                {
+                  "when": "${(areaY != areaNewY)}",
+                  "type": "SetValue",
+                  "property": "dy",
+                  "value": "${-dy}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "layouts": {
+    "BlockLine": {
+      "parameters": [
+        {
+          "name": "lineY",
+          "type": "number",
+          "default": 0
+        }
+      ],
+      "items": [
+        {
+          "type": "Container",
+          "width": "128vh",
+          "height": "4vh",
+          "position": "absolute",
+          "top": "${lineY*4vh}",
+          "data": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "items": [
+            {
+              "type": "VectorGraphic",
+              "id": "bx${data}y${lineY}",
+              "bind": [
+                {
+                  "name": "exist",
+                  "type": "boolean",
+                  "value": "${true}"
+                }
+              ],
+              "width": "8vh",
+              "height": "4vh",
+              "position": "absolute",
+              "left": "${data*8vh}",
+              "source": "Block",
+              "blockColor": "${BLOCK_COLOR[lineY]}",
+              "scale": "best-fill"
+            }
+          ]
+        }
+      ]
+    },
+    "BoundBall": {
+      "parameters": [
+        {
+          "name": "ix",
+          "type": "dimension",
+          "default": "${15vw}"
+        },
+        {
+          "name": "iy",
+          "type": "dimension",
+          "default": "${25vh}"
+        },
+        {
+          "name": "dx",
+          "type": "dimension",
+          "default": 4
+        },
+        {
+          "name": "dy",
+          "type": "dimension",
+          "default": 4
+        },
+        {
+          "name": "size",
+          "type": "dimension",
+          "default": "${5vh / 2}"
+        },
+        {
+          "name": "alive",
+          "type": "boolean",
+          "default": "${true}"
+        }
+      ],
+      "items": [
+        {
+          "type": "VectorGraphic",
+          "source": "parameterizedCircle",
+          "bind": [
+            {
+              "name": "x",
+              "value": "${ix}"
+            },
+            {
+              "name": "y",
+              "value": "${iy}"
+            }
+          ],
+          "width": "${size*2}",
+          "height": "${size*2}",
+          "scale": "best-fit",
+          "circleColor": "white",
+          "circleBorderWidth": 5,
+          "onMount": [
+            {
+              "type": "SetValue",
+              "property": "transform",
+              "value": [
+                {
+                  "translateX": "${ix-size}",
+                  "translateY": "${iy-size}"
+                }
+              ]
+            }
+          ],
+          "handleTick": [
+            {
+              "when": "${alive}",
+              "minimumDelay": 50,
+              "commands": [
+                {
+                  "type": "WallReflect"
+                },
+                {
+                  "type": "PaddleCollision"
+                },
+                {
+                  "type": "BlockCollision"
+                },
+                {
+                  "type": "SetValue",
+                  "property": "transform",
+                  "value": [
+                    {
+                      "translateX": "${x-size}",
+                      "translateY": "${y-size}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "mainTemplate": {
+    "parameters": [
+      "payload"
+    ],
+    "items": [
+      {
+        "type": "Container",
+        "bind": [
+          {
+            "name": "MIN_X",
+            "value": "${50vw-64vh}"
+          },
+          {
+            "name": "MAX_X",
+            "value": "${50vw+64vh}"
+          },
+          {
+            "name": "MIN_Y",
+            "value": "${10vh}"
+          },
+          {
+            "name": "MAX_Y",
+            "value": "${100vh}"
+          },
+          {
+            "name": "UNIT",
+            "type": "number",
+            "value": "${1vh}"
+          },
+          {
+            "name": "MAX_LINE",
+            "type": "number",
+            "value": "${8}"
+          },
+          {
+            "name": "BlockMatrix",
+            "type": "string",
+            "value": "00000000000000000000000000000000111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
+          },
+          {
+            "name": "paddleX",
+            "value": "${0}"
+          },
+          {
+            "name": "pLen",
+            "type": "number",
+            "value": "${32vh}"
+          },
+          {
+            "name": "score",
+            "type": "number",
+            "value": "${0}"
+          },
+          {
+            "name": "BLOCK_COLOR",
+            "type": "array",
+            "value": [
+              "",
+              "",
+              "BlockRed",
+              "BlockOrange",
+              "BlockYellow",
+              "BlockGreen",
+              "BlockBlue",
+              "BlockPurple"
+            ]
+          }
+        ],
+        "width": "100vw",
+        "height": "100vh",
+        "items": [
+          {
+            "type": "Image",
+            "width": "100vw",
+            "height": "100vh",
+            "source": "https://res.cloudinary.com/mokomoko-don/image/upload/v1653127540/block/bg_jzxa4h.jpg",
+            "scale": "best-fill",
+            "position": "absolute"
+          },
+          {
+            "type": "Frame",
+            "width": "${MAX_X-MIN_X}",
+            "height": "${MAX_Y-MIN_Y}",
+            "position": "absolute",
+            "borderColor": "#FF0000",
+            "borderWidth": "3px",
+            "backgroundColor": "rgba(0,0,0,0.5)",
+            "left": "${MIN_X}",
+            "top": "${MIN_Y}"
+          },
+          {
+            "type": "Container",
+            "description": "BlockWall",
+            "width": "${MAX_X-MIN_X}",
+            "height": "${MAX_Y-MIN_Y}",
+            "position": "absolute",
+            "data": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "items": [
+              {
+                "type": "BlockLine",
+                "lineY": "${data}"
+              }
+            ],
+            "direction": "column",
+            "left": "${MIN_X}",
+            "top": "${MIN_Y}"
+          },
+          {
+            "type": "Container",
+            "width": "${MAX_X-MIN_X}",
+            "height": "${MAX_Y-MIN_Y}",
+            "position": "absolute",
+            "left": "${MIN_X}",
+            "top": "${MIN_Y}",
+            "data": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "items": [
+              {
+                "type": "BoundBall",
+                "id": "ball${data}",
+                "position": "absolute",
+                "ix": "${10vw}",
+                "iy": "${70vh}",
+                "dx": "${Math.cos(0-Math.PI/2+(Math.PI/3)*((data-2)*0.1))*2.5vh}",
+                "dy": "${Math.sin(0-Math.PI/2+(Math.PI/3)*((data-2)*0.1))*2.5vh}",
+                "size": "${3vh / 2}"
+              }
+            ]
+          },
+          {
+            "type": "Text",
+            "id": "info",
+            "width": "${MAX_X-MIN_X}",
+            "height": "10vh",
+            "position": "absolute",
+            "text": "${score}",
+            "textAlign": "right",
+            "fontStyle": "italic",
+            "fontSize": "10vh",
+            "textAlignVertical": "center",
+            "color": "#000000",
+            "left": "${MIN_X}"
+          },
+          {
+            "type": "Text",
+            "id": "debugMsg",
+            "width": "100vw",
+            "height": "100vh",
+            "position": "absolute"
+          },
+          {
+            "type": "Container",
+            "width": "${MAX_X-MIN_X}",
+            "height": "${MAX_Y-MIN_Y}",
+            "position": "absolute",
+            "left": "${MIN_X}",
+            "top": "${MIN_Y}",
+            "items": [
+              {
+                "type": "Frame",
+                "id": "paddle",
+                "width": "${pLen}",
+                "height": "4vh",
+                "position": "absolute",
+                "backgroundColor": "#FF0000",
+                "top": "80vh"
+              },
+              {
+                "type": "TouchWrapper",
+                "width": "100%",
+                "height": "100%",
+                "position": "absolute",
+                "handleTick": [
+                  {
+                    "minimumDelay": 100,
+                    "sequencer": "MySequencer",
+                    "commands": [
+                      {
+                        "type": "SetValue",
+                        "componentId": "paddle",
+                        "property": "transform",
+                        "value": [
+                          {
+                            "translateX": "${paddleX-(pLen/2)}"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "onMove": [
+                  {
+                    "type": "Sequential",
+                    "commands": [
+                      {
+                        "type": "SetValue",
+                        "property": "paddleX",
+                        "value": "${event.component.x}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }
